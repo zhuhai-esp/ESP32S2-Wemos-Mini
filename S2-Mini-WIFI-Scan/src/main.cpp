@@ -1,27 +1,20 @@
-/*
- *  This sketch demonstrates how to scan WiFi networks.
- *  The API is almost the same as with the WiFi Shield library,
- *  the most obvious difference being the different file you need to include:
- */
 #include "WiFi.h"
 #include <Arduino.h>
 
 void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(115200);
-
-  // Set WiFi to station mode and disconnect from an AP if it was previously
-  // connected
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(100);
-
   Serial.println("Setup done");
 }
 
 void loop() {
   Serial.println("scan start");
-
-  // WiFi.scanNetworks will return the number of networks found
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(50);
+  digitalWrite(LED_BUILTIN, LOW);
   int n = WiFi.scanNetworks();
   Serial.println("scan done");
   if (n == 0) {
@@ -30,7 +23,6 @@ void loop() {
     Serial.print(n);
     Serial.println(" networks found");
     for (int i = 0; i < n; ++i) {
-      // Print SSID and RSSI for each network found
       Serial.print(i + 1);
       Serial.print(": ");
       Serial.print(WiFi.SSID(i));
@@ -42,7 +34,5 @@ void loop() {
     }
   }
   Serial.println("");
-
-  // Wait a bit before scanning again
   delay(5000);
 }
